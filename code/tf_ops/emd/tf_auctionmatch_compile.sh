@@ -8,4 +8,4 @@ $nvcc tf_auctionmatch_g.cu  -c -o tf_auctionmatch_g.cu.o -std=c++17  -I $TF_INC 
  -x cu -Xcompiler -fPIC -O2
 
 g++ tf_auctionmatch.cpp tf_auctionmatch_g.cu.o -o tf_auctionmatch_so.so -std=c++17 -shared -fPIC -I $TF_INC \
--I$TF_INC/external/nsync/public -L$TF_LIB -ltensorflow_framework -lcudart -L $cudalib -O2
+-I$TF_INC/external/nsync/public -L$TF_LIB -fPIC -lcudart -L $cudalib -O2

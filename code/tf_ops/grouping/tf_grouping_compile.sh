@@ -9,4 +9,4 @@ $nvcc tf_grouping_g.cu -c -o tf_grouping_g.cu.o -std=c++17 -I $TF_INC -DGOOGLE_C
  -x cu -Xcompiler -fPIC -O2
 
 g++ tf_grouping.cpp tf_grouping_g.cu.o -o tf_grouping_so.so -std=c++17 -shared -fPIC -I $TF_INC \
--I$TF_INC/external/nsync/public -I $cudainc -L$TF_LIB -ltensorflow_framework -lcudart -L $cudalib -O2
+-I$TF_INC/external/nsync/public -I $cudainc -L$TF_LIB -fPIC -lcudart -L $cudalib -O2
