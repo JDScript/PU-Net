@@ -6,12 +6,12 @@ all: tf_nndistance_so.so render_balls_so.so
 .PHONY : all
 
 tf_nndistance_so.so: tf_nndistance_g.cu.o tf_nndistance.cpp
-	g++ -std=c++17 tf_nndistance.cpp tf_nndistance_g.cu.o -o tf_nndistance_so.so -shared -ltensorflow_framework -I $(tensorflow) -lcudart -L $(cudalib) -O2 -D_GLIBCXX_USE_CXX11_ABI=0
+	g++ -std=c++17 tf_nndistance.cpp tf_nndistance_g.cu.o -o tf_nndistance_so.so -shared -ltensorflow_framework -fPIC -I $(tensorflow) -lcudart -L $(cudalib) -O2 -D_GLIBCXX_USE_CXX11_ABI=0
 
 tf_nndistance_g.cu.o: tf_nndistance_g.cu
-	$(nvcc) -D_GLIBCXX_USE_CXX11_ABI=0 -std=c++17 -c -o tf_nndistance_g.cu.o tf_nndistance_g.cu -I $(tensorflow) -DGOOGLE_CUDA=1 -x cu -Xcompiler -ltensorflow_framework -O2
+	$(nvcc) -D_GLIBCXX_USE_CXX11_ABI=0 -std=c++17 -c -o tf_nndistance_g.cu.o tf_nndistance_g.cu -I $(tensorflow) -DGOOGLE_CUDA=1 -x cu -Xcompiler -ltensorflow_framework -fPIC -O2
 
 render_balls_so.so: render_balls_so.cpp
-	g++ -std=c++17 render_balls_so.cpp -o render_balls_so.so -shared -ltensorflow_framework -O2 -D_GLIBCXX_USE_CXX11_ABI=0
+	g++ -std=c++17 render_balls_so.cpp -o render_balls_so.so -shared -ltensorflow_framework -fPIC -O2 -D_GLIBCXX_USE_CXX11_ABI=0
 
 
