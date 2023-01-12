@@ -19,10 +19,10 @@ First, find Tensorflow include and library paths.
         TF_INC=$(python -c 'import tensorflow as tf; print(tf.sysconfig.get_include())')
         TF_LIB=$(python -c 'import tensorflow as tf; print(tf.sysconfig.get_lib())')
         
-Then, add flags of `-I$TF_INC/external/nsync/public -L$TF_LIB -fPIC` to the `g++` commands. You can refer [tf_cd_compile.sh](https://github.com/yulequan/PU-Net/blob/master/code/tf_ops/CD/tf_cd_compile.sh).
+Then, add flags of `-I$TF_INC/external/nsync/public -L$TF_LIB -ltensorflow_framework` to the `g++` commands. You can refer [tf_cd_compile.sh](https://github.com/yulequan/PU-Net/blob/master/code/tf_ops/CD/tf_cd_compile.sh).
 
 ### Note
-When running the code, if you have `undefined symbol: _ZTIN10tensorflow8OpKernelE` error, you need to compile the TF operators. If you have already added the `-I$TF_INC/external/nsync/public -L$TF_LIB -fPIC` but still have ` cannot find -fPIC` error. Please use 'locate tensorflow_framework
+When running the code, if you have `undefined symbol: _ZTIN10tensorflow8OpKernelE` error, you need to compile the TF operators. If you have already added the `-I$TF_INC/external/nsync/public -L$TF_LIB -ltensorflow_framework` but still have ` cannot find -ltensorflow_framework` error. Please use 'locate tensorflow_framework
 ' to locate the tensorflow_framework library and make sure this path is in `$TF_LIB`.
 
 ### Usage
