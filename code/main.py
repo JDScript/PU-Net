@@ -37,8 +37,8 @@ MAX_EPOCH = FLAGS.max_epoch
 BASE_LEARNING_RATE = FLAGS.learning_rate
 MODEL_DIR = FLAGS.log_dir
 
-print socket.gethostname()
-print FLAGS
+print(socket.gethostname())
+print(FLAGS)
 os.environ['CUDA_VISIBLE_DEVICES'] = GPU_INDEX
 
 def log_string(out_str):
@@ -134,7 +134,7 @@ def train(assign_model_path=None):
 
         ###assign the generator with another model file
         if assign_model_path is not None:
-            print "Load pre-train model from %s"%(assign_model_path)
+            print("Load pre-train model from %s"%(assign_model_path))
             assign_saver = tf.train.Saver(var_list=[var for var in tf.trainable_variables() if var.name.startswith("generator")])
             assign_saver.restore(sess, assign_model_path)
 
@@ -184,7 +184,7 @@ def train_one_epoch(sess, ops, fetchworker, train_writer):
 
     loss_sum = np.asarray(loss_sum)
     log_string('step: %d mean gen_loss_emd: %f\n' % (step, round(loss_sum.mean(),4)))
-    print 'read data time: %s mean gen_loss_emd: %f' % (round(fetch_time,4), round(loss_sum.mean(),4))
+    print('read data time: %s mean gen_loss_emd: %f' % (round(fetch_time,4), round(loss_sum.mean(),4)))
 
 
 def prediction_whole_model(data_folder=None,show=False,use_normal=False):
@@ -206,7 +206,7 @@ def prediction_whole_model(data_folder=None,show=False,use_normal=False):
                                       reuse=None, use_normal=use_normal, use_bn=False, use_ibn=False, bn_decay=0.95, up_ratio=UP_RATIO)
     saver = tf.train.Saver()
     _, restore_model_path = model_utils.pre_load_checkpoint(MODEL_DIR)
-    print restore_model_path
+    print(restore_model_path)
 
     config = tf.ConfigProto()
     config.gpu_options.allow_growth = True
@@ -226,7 +226,7 @@ def prediction_whole_model(data_folder=None,show=False,use_normal=False):
             if not use_normal:
                 input = input[:,:,0:3]
                 gt = gt[:,0:3]
-            print item, input.shape
+            print(item, input.shape)
 
             start_time = time.time()
             pred_pl = sess.run(pred, feed_dict={pointclouds_ipt: input})
@@ -244,7 +244,7 @@ def prediction_whole_model(data_folder=None,show=False,use_normal=False):
             data_provider.save_pl(path, np.hstack((pred_pl[0, ...],norm_pl[0, ...])))
             path = path[:-4]+'_input.xyz'
             data_provider.save_pl(path, input[0])
-        print total_time/20
+        print(total_time/20)
 
 if __name__ == "__main__":
     np.random.seed(int(time.time()))

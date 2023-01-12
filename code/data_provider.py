@@ -20,12 +20,12 @@ def normalize_point_cloud(input):
 
 def load_patch_data(h5_filename='../h5_data/Patches_noHole_and_collected.h5', skip_rate = 1,num_point=2048, use_randominput=True, norm=False):
     if use_randominput:
-        print "use randominput, input h5 file is:", h5_filename
+        print("use randominput, input h5 file is:", h5_filename)
         f = h5py.File(h5_filename)
         input = f['poisson_4096'][:]
         gt = f['poisson_4096'][:]
     else:
-        print "Do not randominput, input h5 file is:",h5_filename
+        print("Do not randominput, input h5 file is:",h5_filename)
         f = h5py.File(h5_filename)
         gt = f['poisson_4096'][:]
         input = f['montecarlo_1024'][:]
@@ -34,7 +34,7 @@ def load_patch_data(h5_filename='../h5_data/Patches_noHole_and_collected.h5', sk
     assert len(input) == len(gt)
 
     if norm:
-        print "Normalization the data"
+        print("Normalization the data")
         data_radius = np.ones(shape=(len(input)))
         centroid = np.mean(gt[:,:,0:3], axis=1, keepdims=True)
         gt[:,:,0:3] = gt[:,:,0:3] - centroid
@@ -43,7 +43,7 @@ def load_patch_data(h5_filename='../h5_data/Patches_noHole_and_collected.h5', sk
         input[:, :, 0:3] = input[:, :, 0:3] - centroid
         input[:, :, 0:3] = input[:, :, 0:3] / np.expand_dims(furthest_distance,axis=-1)
     else:
-        print "Do not normalization the data"
+        print("Do not normalization the data")
         centroid = np.mean(gt[:, :, 0:3], axis=1, keepdims=True)
         furthest_distance = np.amax(np.sqrt(np.sum((gt[:, :, 0:3] - centroid) ** 2, axis=-1)), axis=1, keepdims=True)
         data_radius = furthest_distance[0,:]
@@ -55,8 +55,8 @@ def load_patch_data(h5_filename='../h5_data/Patches_noHole_and_collected.h5', sk
 
     object_name = list(set([item.split('/')[-1].split('_')[0] for item in name]))
     object_name.sort()
-    print "load object names {}".format(object_name)
-    print "total %d samples" % (len(input))
+    print("load object names {}".format(object_name))
+    print("total %d samples" % (len(input)))
     return input, gt, data_radius, name
 
 
@@ -223,8 +223,8 @@ class Fetcher(threading.Thread):
         self.use_norm = use_norm
         self.sample_cnt = self.input_data.shape[0]
         self.num_batches = self.sample_cnt//self.batch_size
-        print "NUM_BATCH is %s"%(self.num_batches)
-        print self.use_random_input,self.use_norm
+        print("NUM_BATCH is %s"%(self.num_batches))
+        print(self.use_random_input,self.use_norm)
 
     def run(self):
         while not self.stopped:
@@ -288,10 +288,10 @@ class Fetcher(threading.Thread):
 
     def shutdown(self):
         self.stopped = True
-        print "Shutdown ....."
+        print("Shutdown .....")
         while not self.queue.empty():
             self.queue.get()
-        print "Remove all queue data"
+        print("Remove all queue data")
 
 if __name__ == '__main__':
     folder = '/home/lqyu/workspace/PointSR/perfect_models'
@@ -304,7 +304,7 @@ if __name__ == '__main__':
         assert len(input)==len(gt)
         assert len(input)==32
         end = time.time()
-        print cnt,end-start
+        print(cnt,end-start)
         for i in range(len(input)):
             cv2.imshow('data',input[i,:,0:3])
             while True:
